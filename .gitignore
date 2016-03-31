@@ -14,8 +14,8 @@
 *.lo
 
 # Shared objects (inc. Windows DLLs)
-*.so
-*.so.*
+SOURCE/*.so
+#*.so.*
 
 
 # Executables
@@ -34,3 +34,5 @@ RemoteSystemsTempFiles/
 
 # encoder demo doesnt work
 demo
+
+
