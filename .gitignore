@@ -7,6 +7,8 @@
 # Precompiled Headers
 
 
+
+
 # Libraries
 *.lib
 *.a
@@ -15,14 +17,11 @@
 
 # Shared objects (inc. Windows DLLs)
 SOURCE/*.so
-#*.so.*
-
 
 # Executables
 *.exe
 *.out
 *.app
-
 *.hex
 
 # workspace
