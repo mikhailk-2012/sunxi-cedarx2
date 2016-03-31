@@ -1,0 +1,36 @@
+# Object files
+*.o
+*.ko
+*.obj
+*.elf
+
+# Precompiled Headers
+
+
+# Libraries
+*.lib
+*.a
+*.la
+*.lo
+
+# Shared objects (inc. Windows DLLs)
+*.so
+*.so.*
+
+
+# Executables
+*.exe
+*.out
+*.app
+
+*.hex
+
+# workspace
+.cproject
+.project
+RemoteSystemsTempFiles/
+.metadata/
+
+
+# encoder demo doesnt work
+demo
