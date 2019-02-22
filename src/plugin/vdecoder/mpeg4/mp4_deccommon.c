@@ -947,7 +947,9 @@ int32_t mp4_setMV_263B(MP4_STREAM * _ld, MP4_STATE * _mp4_state, int32_t mb_xpos
     if (mv.x < low)
         mv.x += range;
     if (mv.x > high)
+    {
         mv.x -= range;
+    }
 
         mv.y = pmv.y + mvd_y;
 

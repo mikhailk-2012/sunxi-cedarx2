@@ -160,7 +160,9 @@ int32_t mp4_set_stream_h263(mp4_dec_ctx_t* ctx, VideoStreamDataInfo* stream)
         pv -= vbv_size;
     len |= (*pv++)<<24;
     if (pv > vbv_end)
+    {
         pv -= vbv_size;
+    }
 
 	if((len+4) != (uint32_t)stream->nLength)
 	{

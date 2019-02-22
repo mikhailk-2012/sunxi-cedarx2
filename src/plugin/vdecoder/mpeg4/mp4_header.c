@@ -2034,7 +2034,9 @@ int16_t mp4_get_h263_pic_hdr(MP4_STREAM * _ld, MP4_STATE * _mp4_state)
         //* advance_prediction_mode and pb_frame.
         tmp = mp4_getbits(ld, 4);
         if(tmp)
+        {
             return -1;
+        }
 
 	    // fixed setting for short header T
 	    s->hdr.shape                            = RECTANGULAR;

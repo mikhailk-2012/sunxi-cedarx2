@@ -46,9 +46,11 @@
     #define LOG_LEVEL_INFO      "info   "
     #define LOG_LEVEL_VERBOSE   "verbose"
     #define LOG_LEVEL_DEBUG     "debug  "
-    
+    /*
     #define AWLOG(level, fmt, arg...)  \
         fprintf(stderr, "%s: %s <%s:%u>: "fmt"\n", level, LOG_TAG, __FILE__, __LINE__, ##arg)
+        */
+	#define AWLOG(level, fmt, arg...)
 #else
     #error "invalid configuration of os."
 #endif

@@ -1,4 +1,4 @@
-CROSS_COMPILE ?= /opt/linaro/gcc-linaro-arm-linux-gnueabihf/bin/arm-linux-gnueabihf-
+CROSS_COMPILE ?= /opt/linaro/gcc-linaro-7.2.1-2017.11-x86_64_arm-linux-gnueabihf/bin/arm-linux-gnueabihf-
 
 export CC    = $(CROSS_COMPILE)gcc
 export CPP    = $(CROSS_COMPILE)g++

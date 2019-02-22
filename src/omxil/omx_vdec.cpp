@@ -377,10 +377,14 @@ omx_vdec::~omx_vdec()
     }
 
     if (m_sInBufList.pBufArr != NULL)
+    {
     	free(m_sInBufList.pBufArr);
+    }
 
     if (m_sInBufList.pBufHdrList != NULL)
+    {
     	free(m_sInBufList.pBufHdrList);
+    }
 
 	memset(&m_sInBufList, 0, sizeof(struct _BufferList));
 	m_sInBufList.nBufArrSize = m_sInPortDef.nBufferCountActual;
@@ -406,7 +410,9 @@ omx_vdec::~omx_vdec()
     	free(m_sOutBufList.pBufArr);
 
     if (m_sOutBufList.pBufHdrList != NULL)
+    {
     	free(m_sOutBufList.pBufHdrList);
+    }
 
 	memset(&m_sOutBufList, 0, sizeof(struct _BufferList));
 	m_sOutBufList.nBufArrSize = m_sOutPortDef.nBufferCountActual;
@@ -3345,7 +3351,9 @@ static void* ComponentThread(void* pThreadData)
                 	pSelf->m_sInBufList.nSizeOfList--;
                     pSelf->m_sInBufList.nReadPos++;
                 	if (pSelf->m_sInBufList.nReadPos >= (OMX_S32)pSelf->m_sInBufList.nAllocSize)
+                	{
                 		pSelf->m_sInBufList.nReadPos = 0;
+                	}
 
     				/*for cts, using for synchronization between inputbuffer and outputbuffer*/
     				pSelf->m_InputNum ++;
@@ -3535,7 +3543,9 @@ static void* ComponentThread(void* pThreadData)
                     		}
 
                             if(pOutBufHdr==NULL)
+                            {
                                 continue;
+                            }
                             
                     		if (pOutBufHdr->nFilledLen != 0) {
                         		pSelf->m_Callbacks.FillBufferDone(&pSelf->m_cmp, pSelf->m_pAppData, pOutBufHdr);
