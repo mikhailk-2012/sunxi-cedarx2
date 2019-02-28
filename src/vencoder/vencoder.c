@@ -146,6 +146,7 @@ int VideoEncInit(VideoEncoder* pEncoder, VencBaseConfig* pConfig)
     }
 
 	logd("(f:%s, l:%d)", __FUNCTION__, __LINE__);
+	loge("ICVersion:0x%x",  venc_ctx->ICVersion);
 
 
 	memcpy(&venc_ctx->baseConfig, pConfig, sizeof(VencBaseConfig));
@@ -191,6 +192,28 @@ int VideoEncUnInit(VideoEncoder* pEncoder)
 
 	venc_ctx->bInit = 0;
 	return 0;
+}
+
+int VideoEncReInit(VideoEncoder* pEncoder)
+{
+	VencContext* venc_ctx = (VencContext*)pEncoder;
+	int result = 0;
+
+	if(!venc_ctx->bInit)
+	{
+		return -1;
+	}
+	EncAdapterLockVideoEngine();
+	venc_ctx->pVEncDevice->uninit(venc_ctx->pEncoderHandle);
+	venc_ctx->bInit = 0;
+	EncAdapterUnLockVideoEngine();
+
+	EncAdapterLockVideoEngine();
+	result = venc_ctx->pVEncDevice->init(venc_ctx->pEncoderHandle, &venc_ctx->baseConfig);
+	EncAdapterUnLockVideoEngine();
+
+	venc_ctx->bInit = 1;
+	return result;
 }
 
 int AllocInputBuffer(VideoEncoder* pEncoder, VencAllocateBufferParam *pBufferParam)
@@ -302,6 +325,7 @@ int AddOneInputBuffer(VideoEncoder* pEncoder, VencInputBuffer* pBuffer)
 	return result;
 }
 
+
 int VideoEncodeOneFrame(VideoEncoder* pEncoder)
 {
 	int result = 0;
@@ -355,6 +379,60 @@ int VideoEncodeOneFrame(VideoEncoder* pEncoder)
 
 	AddUsedInputBuffer(venc_ctx->pFBM, &venc_ctx->curEncInputbuffer);
 	
+	return result;
+}
+
+
+int VideoEncodeInputBuffer(VideoEncoder* pEncoder, VencInputBuffer* pInBuffer)
+{
+	int result = 0;
+	VencContext* venc_ctx = (VencContext*)pEncoder;
+
+	if(!venc_ctx) {
+		return -1;
+	}
+
+
+	//memcpy(&venc_ctx->curEncInputbuffer, pInBuffer, sizeof(VencInputBuffer));
+
+
+	if(venc_ctx->ICVersion == 0x1639)
+	{
+		if ((unsigned long)pInBuffer->pAddrPhyY >= 0x20000000)
+		{
+			pInBuffer->pAddrPhyY -= 0x20000000;
+		}
+		else
+		{
+			logw("pInBuffer->pAddrPhyY: %p, maybe not right", pInBuffer->pAddrPhyY);
+		}
+
+		if((unsigned long)pInBuffer->pAddrPhyC >= 0x20000000)
+		{
+			pInBuffer->pAddrPhyC -= 0x20000000;
+		}
+	}
+	else
+	{
+		if((unsigned long)pInBuffer->pAddrPhyY >= 0x40000000)
+		{
+			pInBuffer->pAddrPhyY -= 0x40000000;
+		}
+		else
+		{
+			logv("vpInBuffer->pAddrPhyY: %p, maybe not right", pInBuffer->pAddrPhyY);
+		}
+
+		if((unsigned long)pInBuffer->pAddrPhyC >= 0x40000000)
+		{
+			pInBuffer->pAddrPhyC -= 0x40000000;
+		}
+	}
+
+	EncAdapterLockVideoEngine();
+	result = venc_ctx->pVEncDevice->encode(venc_ctx->pEncoderHandle, pInBuffer);
+	EncAdapterUnLockVideoEngine();
+
 	return result;
 }
 

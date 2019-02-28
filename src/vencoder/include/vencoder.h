@@ -378,6 +378,7 @@ VideoEncoder* VideoEncCreate(VENC_CODEC_TYPE eCodecType);
 void VideoEncDestroy(VideoEncoder* pEncoder);
 int VideoEncInit(VideoEncoder* pEncoder, VencBaseConfig* pConfig);
 int VideoEncUnInit(VideoEncoder* pEncoder);
+int VideoEncReInit(VideoEncoder* pEncoder);
 
 int AllocInputBuffer(VideoEncoder* pEncoder, VencAllocateBufferParam *pBufferParam);
 int GetOneAllocInputBuffer(VideoEncoder* pEncoder, VencInputBuffer* pInputbuffer);
@@ -388,6 +389,7 @@ int ReleaseAllocInputBuffer(VideoEncoder* pEncoder);
 
 int AddOneInputBuffer(VideoEncoder* pEncoder, VencInputBuffer* pInputbuffer);
 int VideoEncodeOneFrame(VideoEncoder* pEncoder);
+int VideoEncodeInputBuffer(VideoEncoder* pEncoder, VencInputBuffer *pInputbuffer);
 int AlreadyUsedInputBuffer(VideoEncoder* pEncoder, VencInputBuffer* pBuffer);
 
 int ValidBitstreamFrameNum(VideoEncoder* pEncoder);
